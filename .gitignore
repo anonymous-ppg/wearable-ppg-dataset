@@ -1,0 +1,12 @@
+# Local data for standalone window / heuristic packages (do not commit)
+src/heuristic_baselines/inputs/
+src/heuristic_baselines/outputs/
+src/prepare_windowed_dataset/inputs/
+src/prepare_windowed_dataset/outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.venv/
+.env/

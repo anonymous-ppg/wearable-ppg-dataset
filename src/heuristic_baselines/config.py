@@ -23,7 +23,7 @@ PACKAGE_ROOT = Path(__file__).resolve().parent
 # =============================================================================
 # Manual settings (edit here only)
 # =============================================================================
-HEURISTIC_PIPELINE_PARTICIPANTS: list[str] = ["P1"]
+HEURISTIC_PIPELINE_PARTICIPANTS: list[str] = ["P3", "P4"]
 HEURISTIC_DEVICE_ROLES: tuple[str, ...] = ("Earring", "Ring", "Necklace", "Watch")
 
 # Read merged window NPZ from inputs/<Px>/; write CSV under outputs/<Px>/

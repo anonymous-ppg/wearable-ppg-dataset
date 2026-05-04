@@ -11,8 +11,8 @@ This repository provides baselines for heart rate estimation from PPG signals co
 ## Installation
 
 ```bash
-git clone https://github.com/yourname/yourrepo.git
-cd yourrepo
+git clone https://github.com/anonymous-ppg/wearable-ppg-dataset.git
+cd wearable-ppg-dataset
 ```
 
 ## Download Dataset
@@ -57,11 +57,18 @@ Use **Download Dataset** above. To fetch only that subtree, use `allow_patterns=
 
 #### 1.2 Create `inputs/` and place windowed NPZ
 
-Under this directory, create **`inputs/`**, then **`P1`**, **`P2`**, … inside it. Copy **windowed** alignment NPZ (after the windowing pipeline; filenames **`alignment_windows_*`**) so each file is **`inputs/<Px>/alignment_windows_<Px>_<Role>.npz`** (example: **`inputs/P1/alignment_windows_P1_Earring.npz`**).
+Under this directory, create **`inputs/`**, then participant folders (for current defaults: **`P3`** and **`P4`**). Copy **windowed** alignment NPZ (after the windowing pipeline; filenames **`alignment_windows_*`**) so each file is **`inputs/<Px>/alignment_windows_<Px>_<Role>.npz`** (example: **`inputs/P3/alignment_windows_P3_Earring.npz`**).
 
 #### 1.3 Edit `config.py`
 
-Set **`HEURISTIC_PIPELINE_PARTICIPANTS`** and **`HEURISTIC_DEVICE_ROLES`** to match which participants you run and which `alignment_windows_*` files exist.
+Set these fields in `src/heuristic_baselines/config.py`:
+
+- **`HEURISTIC_PIPELINE_PARTICIPANTS`**: choose which participants to run (default is `["P3", "P4"]`).
+- **`HEURISTIC_DEVICE_ROLES`**: choose devices to run (`Earring`, `Ring`, `Necklace`, `Watch`).
+- **`HEURISTIC_PPG_CHANNELS`**: choose channels (`ppg_green`, `ppg_ir`).
+- **`HEURISTIC_ALGORITHMS`**: choose heuristic methods from `pwd`, `msptd`, `fft`, `autocorr`, `heartpy`, `neurokit`, `qppgfast`.
+
+If your downloaded HuggingFace sample data already has the matching `alignment_windows_*` NPZ files for these defaults, you can run directly without further changes.
 
 #### 1.4 Run
 
@@ -175,7 +182,16 @@ Under this directory, create **`inputs/`**, then **`P1`**, **`P2`**, … inside 
 
 #### 3.3 Edit `config.py`
 
-Set **`PIPELINE_PARTICIPANTS`** and **`WEARABLE_DEVICE_ROLES`**. To change windowing, edit **`ALIGNMENT_WINDOW_SEC`** and **`ALIGNMENT_WINDOW_STRIDE_SEC`** (other fields in the manual block only if you need them).
+Set these fields in `src/prepare_windowed_dataset/config.py`:
+
+- **`PIPELINE_PARTICIPANTS`**: choose which participants to run (e.g. `["P1", "P2"]`).
+- **`WEARABLE_DEVICE_ROLES`**: choose devices to run (`Earring`, `Ring`, `Necklace`, `Watch`); names must match your raw NPZ filenames.
+
+If needed, also adjust:
+
+- **`ECG_FS`**, **`PPG_WINDOW_GAP_THRESHOLD_MS`**, **`ECG_MIN_SAMPLES_FRAC`**: ECG/PPG quality and overlap settings used by the pipeline.
+- **`ALIGNMENT_WINDOW_SEC`**: window length in seconds.
+- **`ALIGNMENT_WINDOW_STRIDE_SEC`**: window stride in seconds.
 
 #### 3.4 Run
 

@@ -71,15 +71,15 @@ Use **Download Dataset** above.
 
 Put **`wearable-ppg-dataset`** (the repo from GitHub) and **`anonymous-ppg-dataset`** (from HuggingFace) **in the same parent folder**. Don’t move or rename anything inside them—the runner finds the data automatically.
 
-#### 1.3 Edit `config.py` (optional)
+#### 1.3 Edit `config.py`
 
 Set these fields in `src/heuristic_baselines/config.py`:
 
 - **`HEURISTIC_DATA_SOURCE`**: **`"sample"`** (default) for the sample windowed data, or **`"full"`** for the full **`ppg_windowed_data`** tree.
-- **`HEURISTIC_PIPELINE_PARTICIPANTS`**: which participants to run (default `["P3", "P4"]`).
+- **`HEURISTIC_PIPELINE_PARTICIPANTS`**: which participants to run (default `["P7", "P8"]`).
 - **`HEURISTIC_DEVICE_ROLES`**: devices to run (`Earring`, `Ring`, `Necklace`, `Watch`).
 - **`HEURISTIC_PPG_CHANNELS`**: channels (`ppg_green`, `ppg_ir`).
-- **`HEURISTIC_ALGORITHMS`**: heuristic methods among `pwd`, `msptd`, `fft`, `autocorr`, `heartpy`, `neurokit`, `qppgfast`.
+- **`HEURISTIC_ALGORITHMS`**: heuristic methods among `pwd`, `msptd`, `fft`, `autocorr`, `heartpy`, `neurokit`, `qppgfast` (default runs only `neurokit`).
 - **`HEURISTIC_RUN_PREPROCESS`**: if **`True`** (default), apply detrend + bandpass and write cached **`outputs/<Px>/<stem>_preprocess.npz`** next to CSVs; if **`False`**, algorithms read the raw window NPZ fields directly.
 
 With the layout in **1.2**, the default **`config.py`** is enough: **`pip install -r requirements.txt`**, then **`python runner.py`**.
@@ -100,17 +100,7 @@ All commands below are run from `src/model_baselines/` with `PYTHONPATH=.`:
 ```bash
 cd src/model_baselines/
 ```
-
-**Set environment via Conda :**
-```bash
-conda env create -f environment.yaml
-```
-```bash
-conda init
-conda activate water
-```
-
-For a **quick smoke test** on sample data:
+For a quick smoke test on sample data:
 ```bash
 PYTHONPATH=. python quickstart.py
 ```

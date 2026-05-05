@@ -37,7 +37,7 @@ HEURISTIC_HF_SUBMISSION_ROOT: Path = (
 # "sample" -> .../sample_data/ppg_windowed_data/<Px>/...
 HEURISTIC_DATA_SOURCE: str = "sample"
 
-HEURISTIC_PIPELINE_PARTICIPANTS: list[str] = ["P3", "P4"]
+HEURISTIC_PIPELINE_PARTICIPANTS: list[str] = ["P7", "P8"]
 HEURISTIC_DEVICE_ROLES: tuple[str, ...] = ("Earring", "Ring", "Necklace", "Watch")
 
 HEURISTIC_RESULT_ROOT: Path = PACKAGE_ROOT / "outputs"
@@ -47,15 +47,7 @@ HEURISTIC_RUN_PREPROCESS: bool = True
 # Single channel: one-element tuple, e.g. ("ppg_green","ppg_ir") — trailing comma required.
 HEURISTIC_PPG_CHANNELS: tuple[str, ...] = ("ppg_green", "ppg_ir")
 
-HEURISTIC_ALGORITHMS: tuple[str, ...] = (
-    "pwd",
-    "msptd",
-    "fft",
-    "autocorr",
-    "heartpy",
-    "neurokit",
-    "qppgfast",
-)
+HEURISTIC_ALGORITHMS: tuple[str, ...] = ("neurokit",)
 
 KNOWN_HEURISTIC_ALGORITHMS: frozenset[str] = frozenset(
     ("pwd", "msptd", "fft", "autocorr", "heartpy", "neurokit", "qppgfast")

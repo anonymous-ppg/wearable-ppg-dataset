@@ -90,7 +90,7 @@ With the layout in **1.2**, the default **`config.py`** is enough: **`pip instal
 pip install -r requirements.txt
 python runner.py
 ```
-
+For the default sample-data setup, a full heuristic run typically takes about **16 minutes** in total.
 
 ---
 

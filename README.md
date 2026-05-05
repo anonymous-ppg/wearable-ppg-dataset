@@ -27,7 +27,7 @@ cd wearable-ppg-dataset
 
 ## Download Dataset
 
-# for only sample data
+### for only sample data
 ```bash
 python -c '
 from huggingface_hub import snapshot_download
@@ -40,7 +40,7 @@ snapshot_download(
 '
 ```
 
-# for all 20 participant data
+### for all 20 participant data
 ```bash
 python -c "
 from huggingface_hub import snapshot_download

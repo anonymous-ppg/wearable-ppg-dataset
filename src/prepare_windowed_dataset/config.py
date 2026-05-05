@@ -1,15 +1,20 @@
 """
 Configuration for ``prepare_windowed_dataset`` (windowing + Pan-Tompkins batch only).
 
-Layout (this package root = ``PACKAGE_ROOT``)::
+Raw NPZ is read from the sibling HuggingFace dataset tree (fixed layout)::
 
-    inputs/<Px>/<Px>_<Role>_raw.npz, <Px>_ecg_raw.npz
+    <parent>/
+      <this-repo>/src/prepare_windowed_dataset/    (PACKAGE_ROOT)
+      anonymous-ppg-dataset/
+        multisite-ppg-submission/
+          raw_data/<Px>/...               (``WINDOW_DATA_SOURCE="full"``)
+          sample_data/raw_data/<Px>/...   (``WINDOW_DATA_SOURCE="sample"``)
+
+Window outputs are written under this package::
+
     outputs/<Px>/alignment_windows_<Px>_<Role>.npz, ...
 
-Edit the "Manual settings" block below. Which participants run is controlled by
-``PIPELINE_PARTICIPANTS`` (same idea as the former ``DATALOADER_PIPELINE_PARTICIPANTS``).
-
-Run from ``src/prepare_windowed_dataset`` (directory that contains this ``config.py``)::
+Run from ``src/prepare_windowed_dataset`` (directory containing this ``config.py``)::
 
     python run_pipeline.py
     python run_pipeline.py --help
@@ -20,18 +25,38 @@ import os
 from pathlib import Path
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
+REPO_ROOT = PACKAGE_ROOT.parent.parent
+WINDOW_HF_SUBMISSION_ROOT: Path = (
+    REPO_ROOT.parent / "anonymous-ppg-dataset" / "multisite-ppg-submission"
+).resolve()
 
 # =============================================================================
 # Manual settings (edit here only)
 # =============================================================================
-# Participants: only these ``inputs/<Px>/`` and ``outputs/<Px>/`` are used in batch mode.
-PIPELINE_PARTICIPANTS: list[str] = ["P1"]
+# Participants to process in batch mode.
+PIPELINE_PARTICIPANTS: list[str] = ["P7", "P8"]
 
-# Wearables (must match filenames, e.g. P1_Earring_raw.npz -> "Earring").
-WEARABLE_DEVICE_ROLES: tuple[str, ...] = ("Earring", "Ring", "Necklace", "Watch")
+# Wearables (must match filenames; available: Earring, Ring, Necklace, Watch;
+# e.g. P1_Earring_raw.npz -> "Earring").
+WEARABLE_DEVICE_ROLES: tuple[str, ...] = ("Earring",)
 
-# Roots under this package (defaults: ./inputs, ./outputs)
-WINDOW_INPUT_ROOT = PACKAGE_ROOT / "inputs"
+# Which HF raw_data tree to read.
+# "sample" -> .../sample_data/raw_data/<Px>/...
+# "full" -> .../raw_data/<Px>/...
+WINDOW_DATA_SOURCE: str = "sample"
+
+
+def _resolve_window_input_root() -> Path:
+    key = WINDOW_DATA_SOURCE.strip().lower()
+    base = WINDOW_HF_SUBMISSION_ROOT
+    if key == "sample":
+        return (base / "sample_data" / "raw_data").resolve()
+    if key == "full":
+        return (base / "raw_data").resolve()
+    raise ValueError(f'WINDOW_DATA_SOURCE must be "sample" or "full", got {WINDOW_DATA_SOURCE!r}')
+
+
+WINDOW_INPUT_ROOT = _resolve_window_input_root()
 WINDOW_OUTPUT_ROOT = PACKAGE_ROOT / "outputs"
 
 # Back-compat names used by run_pipeline / helpers

@@ -104,8 +104,6 @@ For a quick smoke test on sample data:
 ```bash
 PYTHONPATH=. python quickstart.py
 ```
-Below if you still want to run using **sample_data**, please add --data_dir with the correct path, 
-e.g.--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data
 
 #### 2.1 Supervised Baseline on Single Device Dataset
 
@@ -113,8 +111,10 @@ e.g.--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_da
 # --position: earring | ring | watch | necklace
 # --backbone: FCN | DCL | cnn_lstm | LSTM | Transformer | resnet
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
-    --dataset ppg --position earring --backbone resnet 
+    --dataset ppg --position earring --backbone resnet --n_epoch 20
 
+# Batch run (all backbones × positions):
+PYTHONPATH=. python supervised/run_supervised_all.py
 ```
 
 #### 2.2 Self-Supervised Baseline on Single Device Dataset
@@ -122,11 +122,12 @@ PYTHONPATH=. python supervised/main_supervised_baseline.py \
 ```bash
 # BYOL
 PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position ring --cuda 0
-```
-```bash
+
 # SimCLR
 PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position ring --cuda 0
 
+# Batch run (all methods × positions):
+PYTHONPATH=. python self_supervised/run_selfsupervised_all.py
 ```
 
 See [`src/model_baselines/self_supervised/README.md`](src/model_baselines/self_supervised/README.md) for BYOL and SimCLR hyperparameters.
@@ -142,9 +143,8 @@ Then run 4-device fusion:
 ```bash
 # 4-device green channel
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
-    --dataset multisite --backbone resnet
-```
-```bash
+    --dataset multisite --backbone resnet --n_epoch 20
+
 # Device-subset sweep (0=earring 1=ring 2=watch 3=necklace):
 PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --devices 0,1
 ```
@@ -154,21 +154,17 @@ PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --device
 Run alignment with the corresponding modality first:
 ```bash
 PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality accel
-```
-```bash
 PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality ir
 ```
 
 Then run fusion:
 ```bash
 # 4-device green + accel_z
-PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet
-```
-```bash
+PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --n_epoch 20
+
 # 4-device green + IR
-PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet
-```
-```bash
+PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet --n_epoch 20
+
 # Single device (--single_device: 0=earring 1=ring 2=watch 3=necklace):
 PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --single_device 0
 PYTHONPATH=. python multisite/main_supervised_baseline_ir.py    --backbone resnet --single_device 0
@@ -187,31 +183,26 @@ Use this only if you want to **re-window raw recordings** (e.g. change window le
 cd src/prepare_windowed_dataset/
 ```
 
-#### 3.1 Get raw NPZ for windowing
+#### 3.1 Dataset download
 
-Obtain **raw** PPG multi-sensor NPZ and ECG NPZ per participant (e.g. from the dataset’s **`raw_data/`** tree via **Download Dataset**, or `allow_patterns='raw_data/*'` if you only pull that subtree).
+Use **Download Dataset** above.
 
-#### 3.2 Create `inputs/` and place raw NPZ
+#### 3.2 Code + dataset folders
 
-Under this directory, create **`inputs/`**, then **`P1`**, **`P2`**, … inside it. For each participant **`Px`**, add:
-
-- **`inputs/<Px>/<Px>_<Role>_raw.npz`** for each **`Role`** you will run (names must match **`WEARABLE_DEVICE_ROLES`** in `config.py`, e.g. `Earring` → `inputs/P1/P1_Earring_raw.npz`).
-- **`inputs/<Px>/<Px>_ecg_raw.npz`** once per participant.
+Put **`wearable-ppg-dataset`** (the repo from GitHub) and **`anonymous-ppg-dataset`** (from HuggingFace) **in the same parent folder**. Don’t move or rename anything inside them—the runner resolves raw-data paths automatically.
 
 #### 3.3 Edit `config.py`
 
 Set these fields in `src/prepare_windowed_dataset/config.py`:
 
-- **`PIPELINE_PARTICIPANTS`**: choose which participants to run (e.g. `["P1", "P2"]`).
-- **`WEARABLE_DEVICE_ROLES`**: choose devices to run (`Earring`, `Ring`, `Necklace`, `Watch`); names must match your raw NPZ filenames.
+- **`WINDOW_DATA_SOURCE`**: **`"sample"`** (default) uses `sample_data/raw_data`; **`"full"`** uses `raw_data`.
+- **`PIPELINE_PARTICIPANTS`**: participants to run (default `["P7", "P8"]`).
+- **`WEARABLE_DEVICE_ROLES`**: devices to run (default `("Earring",)`).
 - **`ALIGNMENT_WINDOW_SEC`**: window length in seconds.
 - **`ALIGNMENT_WINDOW_STRIDE_SEC`**: window stride in seconds.
-
-If needed, also adjust:
-
-- **`WINDOW_INPUT_ROOT`**: where `inputs/<Px>/` raw NPZ are read from.
-- **`WINDOW_OUTPUT_ROOT`**: where `outputs/<Px>/` windowed NPZ are written.
 - **`ECG_FS`**, **`PPG_WINDOW_GAP_THRESHOLD_MS`**, **`ECG_MIN_SAMPLES_FRAC`**: ECG/PPG quality and overlap settings used by the pipeline.
+
+With the layout in **3.2**, the default **`config.py`** is enough for a sample run.
 
 #### 3.4 Run
 

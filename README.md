@@ -10,11 +10,15 @@ This repository provides baselines for heart rate estimation from PPG signals co
 
 ## Installation
 
-Run ```pip install huggingface_hub``` if you don't have it installed yet. If it doesn’t allow you to install due to “error: externally-managed-environment,” you can override this, at the risk of breaking your Python installation or OS, by passing 
+Run 
+```bash
+pip install huggingface_hub
+```
+in your terminal if you don't have it installed yet. If it doesn’t allow you to install due to “error: externally-managed-environment,” you can override this, at the risk of breaking your Python installation or OS, by passing 
 ```bash
 pip install huggingface_hub --break-system-packages
 ```
-
+Then, clone our repo locally:
 ```bash
 git clone https://github.com/anonymous-ppg/wearable-ppg-dataset.git
 cd wearable-ppg-dataset

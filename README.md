@@ -27,8 +27,8 @@ cd wearable-ppg-dataset
 
 ## Download Dataset
 
-```bash
 # for only sample data
+```bash
 python -c '
 from huggingface_hub import snapshot_download
 snapshot_download(
@@ -40,8 +40,8 @@ snapshot_download(
 '
 ```
 
-```bash
 # for all 20 participant data
+```bash
 python -c "
 from huggingface_hub import snapshot_download
 snapshot_download(
@@ -100,7 +100,7 @@ All commands below are run from `src/model_baselines/` with `PYTHONPATH=.`:
 ```bash
 cd src/model_baselines/
 ```
-For a quick smoke test on sample data:
+For a quick smoke test on sample data(Use DCL, on earring):
 ```bash
 PYTHONPATH=. python quickstart.py
 ```

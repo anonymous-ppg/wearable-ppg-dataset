@@ -4,7 +4,7 @@ Configuration for ``heuristic_baselines`` (PPG preprocess + heuristic HR models)
 HuggingFace window NPZ is read from the **sibling** dataset tree (fixed layout)::
 
     <parent>/
-      <this-repo>/      # clone name may vary, e.g. wearable-ppg-dataset-main or Multi-site-PPG-Dataset-anon
+      <this-repo>/      # clone name may vary, e.g. wearable-ppg-dataset or Multi-site-PPG-Dataset-anon
                          # .../src/heuristic_baselines/ = PACKAGE_ROOT
       anonymous-ppg-dataset/
         multisite-ppg-submission/

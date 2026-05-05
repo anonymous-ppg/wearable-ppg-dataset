@@ -29,16 +29,18 @@ cd wearable-ppg-dataset
 
 ```bash
 # for only sample data
-python -c "
+python -c '
 from huggingface_hub import snapshot_download
 snapshot_download(
-    repo_id='anonymous-ppg-dataset/multisite-ppg-submission',
-    repo_type='dataset',
-    local_dir='anonymous-ppg-dataset/multisite-ppg-submission',
+    repo_id="anonymous-ppg-dataset/multisite-ppg-submission",
+    repo_type="dataset",
+    local_dir="anonymous-ppg-dataset/multisite-ppg-submission",
     allow_patterns="sample_data/*"
 )
-"
+'
+```
 
+```bash
 # for all 20 participant data
 python -c "
 from huggingface_hub import snapshot_download

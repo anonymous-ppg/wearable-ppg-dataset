@@ -10,7 +10,7 @@ This repository provides baselines for heart rate estimation from PPG signals co
 
 ## Installation
 
-Run ```pip install huggingface_hub``` if you don't have it installed yet. If it doesn’t allow you to install due to “error: externally-managed-environment,” you can override this, at the risk of breaking your Python installation or OS, by passing 
+Run ```bash pip install huggingface_hub ``` if you don't have it installed yet. If it doesn’t allow you to install due to “error: externally-managed-environment,” you can override this, at the risk of breaking your Python installation or OS, by passing 
 ```pip install huggingface_hub --break-system-packages```
 
 ```bash

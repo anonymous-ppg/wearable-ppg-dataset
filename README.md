@@ -110,7 +110,7 @@ conda init
 conda activate water
 ```
 
-For a quick smoke test on sample data:
+For a **quick smoke test** on sample data:
 ```bash
 PYTHONPATH=. python quickstart.py
 ```

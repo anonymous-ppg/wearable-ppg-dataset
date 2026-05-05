@@ -87,13 +87,13 @@ def run_one_device_channel(
         for i in range(n):
             hrs.append(float(hr_fn(ppg[i], ppg_fs)))
         hr_arr = np.array(hrs, dtype=np.float64)
-        csv_path = result_dir / f"heuristic_results_{device_id}_{ppg_channel}_{alg_name}.csv"
+        csv_path = result_dir / f"model_results_{device_id}_{ppg_channel}_{alg_name}.csv"
         df = pd.DataFrame({"t0_ms": t0_ms, "hr_gt": hr_gt, hr_col: hr_arr})
         df.to_csv(csv_path, index=False)
         log_lines = [f"  [SAVED] {csv_path.name}", *_metrics_lines(hr_arr, hr_gt, alg_name)]
         for line in log_lines:
             print(line)
-        log_path = result_dir / f"heuristic_results_{device_id}_{ppg_channel}_{alg_name}_runlog.txt"
+        log_path = result_dir / f"model_results_{device_id}_{ppg_channel}_{alg_name}_runlog.txt"
         log_path.write_text("\n".join(log_lines) + "\n", encoding="utf-8")
         print(f"  [SAVED] {log_path.name}")
 

@@ -4,9 +4,9 @@
 # Run from the src/ directory:
 #   PYTHONPATH=. python quickstart.py
 #
-# Step 0: aligns windows for P1 and P2 only (skips files that already exist).
+# Step 0: aligns windows for P3 and P4 only (skips files that already exist).
 # Step 1: single-device full LOSO over all participants, 5 epochs.
-# Steps 2-4: multisite — train on P2, test on P1 (5 epochs).
+# Steps 2-4: multisite — train on P4, test on P3 (5 epochs).
 #
 # For the full LOSO sweep over all participants:
 #   - remove --participants from the alignment commands
@@ -19,7 +19,7 @@ import sys
 import os
 
 # ── Configuration — edit these two lines ─────────────────────────────────────
-DATA_DIR = "../../../anonymous-ppg-dataset/multisite-ppg-submission/sample/ppg_windowed_data"  # sample dataset (P1, P2)
+DATA_DIR = "../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data"  # sample dataset (P3, P4)
 # DATA_DIR = "../../../anonymous-ppg-dataset/multisite-ppg-submission/ppg_windowed_data"       # full dataset (all participants)
 CUDA     = 0
 # ─────────────────────────────────────────────────────────────────────────────
@@ -29,21 +29,21 @@ env = {**os.environ, "PYTHONPATH": os.path.abspath(".")}
 # ── Step 0: alignment (run once, skips participants that are already aligned) ─
 ALIGN = [
     {
-        "label": "[0a/4] Align windows — green (P1, P2 only)",
+        "label": "[0a/4] Align windows — green (P3, P4 only)",
         "cmd": [sys.executable, "multisite/aligned_4device.py",
-                "--data_dir", DATA_DIR, "--participants", "P1,P2"],
+                "--data_dir", DATA_DIR, "--participants", "P3,P4"],
     },
     {
-        "label": "[0b/4] Align windows — green + accel_z (P1, P2 only)",
+        "label": "[0b/4] Align windows — green + accel_z (P3, P4 only)",
         "cmd": [sys.executable, "multisite/aligned_4device.py",
                 "--data_dir", DATA_DIR, "--modality", "accel",
-                "--participants", "P1,P2"],
+                "--participants", "P3,P4"],
     },
     {
-        "label": "[0c/4] Align windows — green + IR (P1, P2 only)",
+        "label": "[0c/4] Align windows — green + IR (P3, P4 only)",
         "cmd": [sys.executable, "multisite/aligned_4device.py",
                 "--data_dir", DATA_DIR, "--modality", "ir",
-                "--participants", "P1,P2"],
+                "--participants", "P3,P4"],
     },
 ]
 
@@ -62,34 +62,34 @@ TESTS = [
         ],
     },
     {
-        "label": "[2/4] Multisite green  (4-device fusion, target=P1)",
+        "label": "[2/4] Multisite green  (4-device fusion, target=P3)",
         "cmd": [
             sys.executable, "supervised/main_supervised_baseline.py",
             "--dataset",       "multisite",
             "--backbone",      "resnet",
-            "--target_domain", "P1",
+            "--target_domain", "P3",
             "--data_dir",      DATA_DIR,
             "--cuda",          str(CUDA),
             "--n_epoch",       "5",
         ],
     },
     {
-        "label": "[3/4] Multisite green+accel  (8-channel fusion, target=P1)",
+        "label": "[3/4] Multisite green+accel  (8-channel fusion, target=P3)",
         "cmd": [
             sys.executable, "multisite/main_supervised_baseline_accel.py",
             "--backbone",      "resnet",
-            "--target_domain", "P1",
+            "--target_domain", "P3",
             "--data_dir",      DATA_DIR,
             "--cuda",          str(CUDA),
             "--n_epoch",       "5",
         ],
     },
     {
-        "label": "[4/4] Multisite green+IR  (8-channel fusion, target=P1)",
+        "label": "[4/4] Multisite green+IR  (8-channel fusion, target=P3)",
         "cmd": [
             sys.executable, "multisite/main_supervised_baseline_ir.py",
             "--backbone",      "resnet",
-            "--target_domain", "P1",
+            "--target_domain", "P3",
             "--data_dir",      DATA_DIR,
             "--cuda",          str(CUDA),
             "--n_epoch",       "5",

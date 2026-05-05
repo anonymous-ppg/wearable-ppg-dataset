@@ -125,8 +125,6 @@ e.g.--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_da
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
     --dataset ppg --position earring --backbone resnet 
 
-# Batch run (all backbones × positions):
-PYTHONPATH=. python supervised/run_supervised_all.py
 ```
 
 #### 2.2 Self-Supervised Baseline on Single Device Dataset
@@ -134,12 +132,11 @@ PYTHONPATH=. python supervised/run_supervised_all.py
 ```bash
 # BYOL
 PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position ring --cuda 0
-
+```
+```bash
 # SimCLR
 PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position ring --cuda 0
 
-# Batch run (all methods × positions):
-PYTHONPATH=. python self_supervised/run_selfsupervised_all.py
 ```
 
 See [`src/model_baselines/self_supervised/README.md`](src/model_baselines/self_supervised/README.md) for BYOL and SimCLR hyperparameters.
@@ -156,7 +153,8 @@ Then run 4-device fusion:
 # 4-device green channel
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
     --dataset multisite --backbone resnet
-
+```
+```bash
 # Device-subset sweep (0=earring 1=ring 2=watch 3=necklace):
 PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --devices 0,1
 ```
@@ -166,6 +164,8 @@ PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --device
 Run alignment with the corresponding modality first:
 ```bash
 PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality accel
+```
+```bash
 PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality ir
 ```
 
@@ -173,10 +173,12 @@ Then run fusion:
 ```bash
 # 4-device green + accel_z
 PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet
-
+```
+```bash
 # 4-device green + IR
 PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet
-
+```
+```bash
 # Single device (--single_device: 0=earring 1=ring 2=watch 3=necklace):
 PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --single_device 0
 PYTHONPATH=. python multisite/main_supervised_baseline_ir.py    --backbone resnet --single_device 0

@@ -1,7 +1,9 @@
 """
 Batch: optional preprocess + selected heuristics on merged alignment_windows npz.
 
-Run from ``src/heuristic_baselines`` (this directory; ``inputs/<Px>/`` and ``outputs/<Px>/``)::
+Window NPZ lives **next to** this folder: ``../ppg_windowed_data/`` or ``../sample_data/ppg_windowed_data/``
+(see ``config.HEURISTIC_DATA_SOURCE``); results and ``*_preprocess.npz`` under ``outputs/<Px>/``.
+Run from this package directory::
 
     python runner.py
 """
@@ -52,10 +54,11 @@ def run_one_device_channel(
     algorithms: tuple[str, ...],
     run_preprocess: bool,
 ) -> None:
-    pre_npz = raw_npz.with_name(raw_npz.stem + "_preprocess.npz")
+    # Preprocessed cache lives under outputs/<Px>/ (same as CSV), not next to raw HF npz.
+    pre_npz = result_dir / f"{raw_npz.stem}_preprocess.npz"
     if run_preprocess:
         if not pre_npz.is_file():
-            print(f"  [preprocess] writing {pre_npz.name}")
+            print(f"  [preprocess] writing {pre_npz.name} -> {result_dir}")
             write_preprocess_npz(raw_npz, pre_npz)
         load_path = pre_npz
     else:
@@ -110,7 +113,12 @@ def main() -> None:
         sys.exit(1)
 
     result_root = config.HEURISTIC_RESULT_ROOT
-    print(f"[heuristic] windows_npz_root={root}")
+    if not root.is_dir():
+        print(f"[ERROR] Window NPZ root does not exist: {root}")
+        print('  Set HEURISTIC_DATA_SOURCE to "full" or "sample".')
+        print("  Place HF folders next to heuristic_baselines (same level): ppg_windowed_data/ or sample_data/.")
+        sys.exit(1)
+    print(f"[heuristic] data_source={config.HEURISTIC_DATA_SOURCE!r} windows_npz_root={root}")
     print(f"[heuristic] result_root={result_root}")
     print(f"[heuristic] participants={participants} roles={roles} channels={channels}")
     print(f"[heuristic] preprocess={config.HEURISTIC_RUN_PREPROCESS} algorithms={want_algs}")

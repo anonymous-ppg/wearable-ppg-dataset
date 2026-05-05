@@ -100,6 +100,16 @@ All commands below are run from `src/model_baselines/` with `PYTHONPATH=.`:
 ```bash
 cd src/model_baselines/
 ```
+
+**Set environment via Conda :**
+```bash
+conda env create -f environment.yaml
+```
+```bash
+conda init
+conda activate water
+```
+
 For a quick smoke test on sample data:
 ```bash
 PYTHONPATH=. python quickstart.py

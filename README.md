@@ -71,7 +71,7 @@ Use **Download Dataset** above.
 
 Put **`wearable-ppg-dataset-main`** (the repo from GitHub) and **`anonymous-ppg-dataset`** (from HuggingFace) **in the same parent folder**. Don’t move or rename anything inside them—the runner finds the data automatically.
 
-#### 1.3 Edit `config.py`
+#### 1.3 Edit `config.py` (optional)
 
 Set these fields in `src/heuristic_baselines/config.py`:
 

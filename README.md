@@ -27,8 +27,8 @@ cd wearable-ppg-dataset
 
 ## Download Dataset
 
-### for only sample data
 ```bash
+# for only sample data
 python -c '
 from huggingface_hub import snapshot_download
 snapshot_download(
@@ -40,8 +40,8 @@ snapshot_download(
 '
 ```
 
-### for all 20 participant data
 ```bash
+# for all 20 participant data
 python -c "
 from huggingface_hub import snapshot_download
 snapshot_download(
@@ -91,6 +91,8 @@ pip install -r requirements.txt
 python runner.py
 ```
 
+For the default sample-data setup, a full heuristic run typically takes about **16 minutes** in total.
+
 
 ---
 
@@ -100,14 +102,10 @@ All commands below are run from `src/model_baselines/` with `PYTHONPATH=.`:
 ```bash
 cd src/model_baselines/
 ```
-For a quick smoke test on sample data(Use DCL, on earring):
+For a quick smoke test on sample data:
 ```bash
 PYTHONPATH=. python quickstart.py
 ```
-
-Below if you still want to run using **sample_data**, please fill --data_dir with the correct path, 
-e.g.**--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data**
-Otherwise, the default path will find the full dataset which you may not download for now.
 
 #### 2.1 Supervised Baseline on Single Device Dataset
 
@@ -115,19 +113,23 @@ Otherwise, the default path will find the full dataset which you may not downloa
 # --position: earring | ring | watch | necklace
 # --backbone: FCN | DCL | cnn_lstm | LSTM | Transformer | resnet
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
-    --dataset ppg --position earring --backbone DCL --data_dir <path>
+    --dataset ppg --position earring --backbone resnet --n_epoch 20
 
+# Batch run (all backbones × positions):
+PYTHONPATH=. python supervised/run_supervised_all.py
 ```
 
 #### 2.2 Self-Supervised Baseline on Single Device Dataset
 
 ```bash
 # BYOL
-PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position ring --cuda 0 --data_dir <path>
+PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position ring --cuda 0
 
 # SimCLR
-PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position ring --cuda 0 --data_dir <path>
+PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position ring --cuda 0
 
+# Batch run (all methods × positions):
+PYTHONPATH=. python self_supervised/run_selfsupervised_all.py
 ```
 
 See [`src/model_baselines/self_supervised/README.md`](src/model_baselines/self_supervised/README.md) for BYOL and SimCLR hyperparameters.
@@ -143,11 +145,10 @@ Then run 4-device fusion:
 ```bash
 # 4-device green channel
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
-    --dataset multisite --backbone DCL --data_dir <path>
-```
-```bash
+    --dataset multisite --backbone resnet --n_epoch 20
+
 # Device-subset sweep (0=earring 1=ring 2=watch 3=necklace):
-PYTHONPATH=. python multisite/run_multisite_subset.py --backbone DCL --devices 0,1 --data_dir <path>
+PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --devices 0,1
 ```
 
 #### 2.4 PPG-Motion Fusion Experiment
@@ -161,16 +162,14 @@ PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality ir
 Then run fusion:
 ```bash
 # 4-device green + accel_z
-PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --data_dir <path>
-```
-```bash
+PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --n_epoch 20
+
 # 4-device green + IR
-PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet --data_dir <path>
-```
-```bash
+PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet --n_epoch 20
+
 # Single device (--single_device: 0=earring 1=ring 2=watch 3=necklace):
-PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --single_device 0 --data_dir <path>
-PYTHONPATH=. python multisite/main_supervised_baseline_ir.py    --backbone resnet --single_device 0 --data_dir <path>
+PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --single_device 0
+PYTHONPATH=. python multisite/main_supervised_baseline_ir.py    --backbone resnet --single_device 0
 ```
 
 See [`src/model_baselines/README.md`](src/model_baselines/README.md) for the full list of arguments.

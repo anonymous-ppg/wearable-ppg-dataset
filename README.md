@@ -121,7 +121,7 @@ PYTHONPATH=. python quickstart.py
 # --position: earring | ring | watch | necklace
 # --backbone: FCN | DCL | cnn_lstm | LSTM | Transformer | resnet
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
-    --dataset ppg --position earring --backbone resnet --n_epoch 20
+    --dataset ppg --position earring --backbone resnet 
 
 # Batch run (all backbones × positions):
 PYTHONPATH=. python supervised/run_supervised_all.py
@@ -153,7 +153,7 @@ Then run 4-device fusion:
 ```bash
 # 4-device green channel
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
-    --dataset multisite --backbone resnet --n_epoch 20
+    --dataset multisite --backbone resnet
 
 # Device-subset sweep (0=earring 1=ring 2=watch 3=necklace):
 PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --devices 0,1
@@ -170,10 +170,10 @@ PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality ir
 Then run fusion:
 ```bash
 # 4-device green + accel_z
-PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --n_epoch 20
+PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet
 
 # 4-device green + IR
-PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet --n_epoch 20
+PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet
 
 # Single device (--single_device: 0=earring 1=ring 2=watch 3=necklace):
 PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --single_device 0

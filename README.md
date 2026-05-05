@@ -114,6 +114,8 @@ For a **quick smoke test** on sample data:
 ```bash
 PYTHONPATH=. python quickstart.py
 ```
+Below if you still want to run using **sample_data**, please add --data_dir with the correct path, 
+e.g.--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data
 
 #### 2.1 Supervised Baseline on Single Device Dataset
 

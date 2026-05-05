@@ -6,7 +6,7 @@ Dispatcher that routes args.dataset to the correct data loader.
 """
 
 import os
-from data_preprocess.data_preprocess_dataset import prep_ppg
+from data_preprocess.data_preprocess_ppg import prep_ppg
 from data_preprocess.data_preprocess_multisite import prep_multisite
 from data_preprocess.data_preprocess_multisite_accel import prep_domains_subject_sp as prep_multisite_accel
 from data_preprocess.data_preprocess_multisite_ir import prep_domains_subject_sp as prep_multisite_ir

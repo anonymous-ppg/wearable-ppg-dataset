@@ -106,7 +106,7 @@ PYTHONPATH=. python quickstart.py
 ```
 
 Below if you still want to run using **sample_data**, please fill --data_dir with the correct path, 
-e.g.--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data
+e.g.**--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data**
 Otherwise, the default path will find the full dataset which you may not download for now.
 
 #### 2.1 Supervised Baseline on Single Device Dataset

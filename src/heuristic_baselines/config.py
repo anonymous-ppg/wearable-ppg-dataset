@@ -1,11 +1,17 @@
 """
 Configuration for ``heuristic_baselines`` (PPG preprocess + heuristic HR models).
 
-Window NPZ lives **next to** this package (same parent directory as ``heuristic_baselines/``), e.g. under ``src/``::
+HuggingFace window NPZ is read from the **sibling** dataset tree (fixed layout)::
 
-    ../ppg_windowed_data/<Px>/alignment_windows_<Px>_<Role>.npz   (``HEURISTIC_DATA_SOURCE="full"``)
-    ../sample_data/ppg_windowed_data/<Px>/...                    (``HEURISTIC_DATA_SOURCE="sample"``)
-    outputs/<Px>/model_results_*.csv, *_preprocess.npz            (write, under this package)
+    <parent>/
+      <this-repo>/      # clone name may vary, e.g. wearable-ppg-dataset-main or Multi-site-PPG-Dataset-anon
+                         # .../src/heuristic_baselines/ = PACKAGE_ROOT
+      anonymous-ppg-dataset/
+        multisite-ppg-submission/
+          ppg_windowed_data/<Px>/...                    (``HEURISTIC_DATA_SOURCE="full"``)
+          sample_data/ppg_windowed_data/<Px>/...         (``HEURISTIC_DATA_SOURCE="sample"``)
+
+Outputs (CSV, ``*_preprocess.npz``) go under this package: ``outputs/<Px>/``.
 
 Run from this directory::
 
@@ -16,15 +22,19 @@ from __future__ import annotations
 from pathlib import Path
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
-# Parent of ``heuristic_baselines/`` (e.g. ``src/``): HF trees sit here as siblings.
-HEURISTIC_DATA_PARENT = PACKAGE_ROOT.parent
+# Repository root (parent of ``src/``); folder name does not matter.
+REPO_ROOT = PACKAGE_ROOT.parent.parent
+# Sibling of the code repo: anonymous-ppg-dataset/multisite-ppg-submission/
+HEURISTIC_HF_SUBMISSION_ROOT: Path = (
+    REPO_ROOT.parent / "anonymous-ppg-dataset" / "multisite-ppg-submission"
+).resolve()
 
 # =============================================================================
 # Manual settings (edit here only)
 # =============================================================================
-# Which tree to read (folders **next to** ``heuristic_baselines/``, not inside it).
-# "full" -> <parent>/ppg_windowed_data/<Px>/...
-# "sample" -> <parent>/sample_data/ppg_windowed_data/<Px>/...
+# Which windowed tree under ``HEURISTIC_HF_SUBMISSION_ROOT`` to use.
+# "full" -> .../ppg_windowed_data/<Px>/...
+# "sample" -> .../sample_data/ppg_windowed_data/<Px>/...
 HEURISTIC_DATA_SOURCE: str = "sample"
 
 HEURISTIC_PIPELINE_PARTICIPANTS: list[str] = ["P3", "P4"]
@@ -54,7 +64,7 @@ KNOWN_HEURISTIC_ALGORITHMS: frozenset[str] = frozenset(
 
 def _resolve_heuristic_windows_root() -> Path:
     key = HEURISTIC_DATA_SOURCE.strip().lower()
-    base = HEURISTIC_DATA_PARENT
+    base = HEURISTIC_HF_SUBMISSION_ROOT
     if key == "full":
         return (base / "ppg_windowed_data").resolve()
     if key == "sample":

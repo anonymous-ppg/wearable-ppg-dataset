@@ -1,8 +1,9 @@
 """
 Batch: optional preprocess + selected heuristics on merged alignment_windows npz.
 
-Window NPZ lives **next to** this folder: ``../ppg_windowed_data/`` or ``../sample_data/ppg_windowed_data/``
-(see ``config.HEURISTIC_DATA_SOURCE``); results and ``*_preprocess.npz`` under ``outputs/<Px>/``.
+Window NPZ is under the HuggingFace tree ``anonymous-ppg-dataset/multisite-ppg-submission/``
+(see ``config.HEURISTIC_HF_SUBMISSION_ROOT`` and ``HEURISTIC_DATA_SOURCE``). Results and
+``*_preprocess.npz`` go under ``outputs/<Px>/``.
 Run from this package directory::
 
     python runner.py
@@ -116,8 +117,13 @@ def main() -> None:
     if not root.is_dir():
         print(f"[ERROR] Window NPZ root does not exist: {root}")
         print('  Set HEURISTIC_DATA_SOURCE to "full" or "sample".')
-        print("  Place HF folders next to heuristic_baselines (same level): ppg_windowed_data/ or sample_data/.")
+        print(
+            "  Expected dataset root: same parent as this repo, folder "
+            "anonymous-ppg-dataset/multisite-ppg-submission/ with ppg_windowed_data/ "
+            "and sample_data/ppg_windowed_data/ inside."
+        )
         sys.exit(1)
+    print(f"[heuristic] hf_submission_root={config.HEURISTIC_HF_SUBMISSION_ROOT}")
     print(f"[heuristic] data_source={config.HEURISTIC_DATA_SOURCE!r} windows_npz_root={root}")
     print(f"[heuristic] result_root={result_root}")
     print(f"[heuristic] participants={participants} roles={roles} channels={channels}")

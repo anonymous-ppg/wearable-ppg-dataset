@@ -63,34 +63,26 @@ All commands below are run from `src/heuristic_baselines/`:
 cd src/heuristic_baselines/
 ```
 
-#### 1.1 Download windowed NPZ from HuggingFace
+#### 1.1 Dataset download
 
-Use **Download Dataset** above. You only need one of the HuggingFace folders **`sample_data`** or **`ppg_windowed_data`** (or pull the full dataset, which contains both):
+Use **Download Dataset** above.
 
-- **`sample_data`** → `allow_patterns="sample_data/*"`
-- **`ppg_windowed_data`** → `allow_patterns='ppg_windowed_data/*'`
+#### 1.2 Code + dataset folders
 
-#### 1.2 Place data next to `heuristic_baselines`
-
-Put the folder you downloaded (**`sample_data`** or **`ppg_windowed_data`**) **next to** `heuristic_baselines`, not inside it—for example **`src/sample_data/`** or **`src/ppg_windowed_data/`** alongside **`src/heuristic_baselines/`**. The dataset’s internal layout matches what you get from HuggingFace; no need to rearrange files beyond placing that top-level folder correctly.
-
-| `HEURISTIC_DATA_SOURCE` | HuggingFace folder to use |
-|---------------------------|---------------------------|
-| **`"sample"`** | **`sample_data`** |
-| **`"full"`** | **`ppg_windowed_data`** |
+Put **`wearable-ppg-dataset-main`** (the repo from GitHub) and **`anonymous-ppg-dataset`** (from HuggingFace) **in the same parent folder**. Don’t move or rename anything inside them—the runner finds the data automatically.
 
 #### 1.3 Edit `config.py`
 
 Set these fields in `src/heuristic_baselines/config.py`:
 
-- **`HEURISTIC_DATA_SOURCE`**: **`"sample"`** vs **`"full"`** — match the folder you placed beside `heuristic_baselines` (see table above).
+- **`HEURISTIC_DATA_SOURCE`**: **`"sample"`** (default) for the sample windowed data, or **`"full"`** for the full **`ppg_windowed_data`** tree.
 - **`HEURISTIC_PIPELINE_PARTICIPANTS`**: which participants to run (default `["P3", "P4"]`).
 - **`HEURISTIC_DEVICE_ROLES`**: devices to run (`Earring`, `Ring`, `Necklace`, `Watch`).
 - **`HEURISTIC_PPG_CHANNELS`**: channels (`ppg_green`, `ppg_ir`).
 - **`HEURISTIC_ALGORITHMS`**: heuristic methods among `pwd`, `msptd`, `fft`, `autocorr`, `heartpy`, `neurokit`, `qppgfast`.
 - **`HEURISTIC_RUN_PREPROCESS`**: if **`True`** (default), apply detrend + bandpass and write cached **`outputs/<Px>/<stem>_preprocess.npz`** next to CSVs; if **`False`**, algorithms read the raw window NPZ fields directly.
 
-With **`sample_data`** placed as in **1.2**, the default **`config.py`** is ready to go: **`pip install -r requirements.txt`**, then **`python runner.py`**.
+With the layout in **1.2**, the default **`config.py`** is enough: **`pip install -r requirements.txt`**, then **`python runner.py`**.
 
 #### 1.4 Run
 

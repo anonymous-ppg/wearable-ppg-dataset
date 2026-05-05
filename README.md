@@ -104,17 +104,28 @@ cd src/model_baselines/
 #### Set up environment
 ```bash
 conda env create -f environment.yaml
-conda init
 conda activate water
 ```
-For a quick smoke test on sample data(Use DCL, on earring):
+
+> If `conda activate` fails, run `conda init` once and restart your shell.
+
+#### Quick smoke test
+
+Run an end-to-end check on the sample data (DCL method, earring site):
+
 ```bash
 PYTHONPATH=. python quickstart.py
 ```
+Expected runtime: ~5 minutes on a single NVIDIA H100.
 
-Below if you still want to run using **sample_data**, please fill --data_dir with the correct path, 
-e.g.**--data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data**
-Otherwise, the default path will find the full dataset which you may not download for now.
+**Setting `--data_dir` (commands 2.1–2.4).** 
+The default `--data_dir` points to the full dataset, so **if you have not downloaded the full dataset**, you must override it to use the sample data:
+>
+> ```
+> --data_dir ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data
+> ```
+>
+> If you omit `--data_dir`, the script defaults to the full-dataset path.
 
 #### 2.1 Supervised Baseline on Single Device Dataset
 
@@ -131,7 +142,8 @@ PYTHONPATH=. python supervised/main_supervised_baseline.py \
 ```bash
 # BYOL
 PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position ring --cuda 0 --data_dir <path>
-
+```
+```bash
 # SimCLR
 PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position ring --cuda 0 --data_dir <path>
 
@@ -162,22 +174,11 @@ PYTHONPATH=. python multisite/run_multisite_subset.py --backbone DCL --devices 0
 Run alignment with the corresponding modality first:
 ```bash
 PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality accel
-PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality ir
 ```
-
 Then run fusion:
 ```bash
 # 4-device green + accel_z
 PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --data_dir <path>
-```
-```bash
-# 4-device green + IR
-PYTHONPATH=. python multisite/main_supervised_baseline_ir.py --backbone resnet --data_dir <path>
-```
-```bash
-# Single device (--single_device: 0=earring 1=ring 2=watch 3=necklace):
-PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --single_device 0 --data_dir <path>
-PYTHONPATH=. python multisite/main_supervised_baseline_ir.py    --backbone resnet --single_device 0 --data_dir <path>
 ```
 
 See [`src/model_baselines/README.md`](src/model_baselines/README.md) for the full list of arguments.

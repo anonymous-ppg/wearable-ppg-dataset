@@ -4,7 +4,7 @@
 # Run from the src/ directory:
 #   PYTHONPATH=. python quickstart.py
 #
-# Runs single-device supervised baseline (earring, 5 epochs) on P3 & P4.
+# Runs single-device supervised baseline (earring, 5 epochs) on P7 & P8.
 # No alignment step required.
 #
 # For the full LOSO sweep over all participants, change to full dataset and 
@@ -16,7 +16,7 @@ import sys
 import os
 
 # ── Configuration — edit these two lines ─────────────────────────────────────
-DATA_DIR = "../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data"  # sample dataset (P3, P4)
+DATA_DIR = "../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data"  # sample dataset (P7, P8)
 # DATA_DIR = "../../../anonymous-ppg-dataset/multisite-ppg-submission/ppg_windowed_data"       # full dataset (all participants)
 CUDA     = 0
 # ─────────────────────────────────────────────────────────────────────────────

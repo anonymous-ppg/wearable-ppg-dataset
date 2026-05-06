@@ -116,7 +116,7 @@ conda activate water
 #### Quick smoke test
 > ⚠️ **Smoke-test results are not meaningful.** The bundled `sample_data/` contains only 2 participants, leaving each LOSO fold with a single training participant. The model will collapse to predicting a constant (you'll see `R: 0.0000` and high MAE). This is expected — it confirms the pipeline runs end-to-end, not that the model works. **Real numbers require the full 20-participant dataset.**
 
-Run an end-to-end check on the sample data (DCL method, earring site):
+Run an end-to-end check on the sample data (resnet method, earring site):
 
 ```bash
 PYTHONPATH=. python quickstart.py
@@ -143,6 +143,8 @@ PYTHONPATH=. python supervised/main_supervised_baseline.py \
 ```
 Expected runtime: ~5 minutes on a single NVIDIA H100 for sample data.
 
+See [`src/model_baselines/README.md`](src/model_baselines/README.md) for the full list of arguments.
+
 #### 2.2 Self-Supervised Baseline (Single Device)
 
 ```bash
@@ -154,6 +156,7 @@ PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position earr
 
 ```
 Expected runtime: ~2h per backbone on a single NVIDIA H100 for sample data.
+
 See [`src/model_baselines/self_supervised/README.md`](src/model_baselines/self_supervised/README.md) for BYOL and SimCLR hyperparameters.
 
 #### 2.3 Multi-Site fusion (4-Device Aligned)
@@ -188,8 +191,6 @@ Then run fusion:
 PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --data_dir <path>
 ```
 Expected runtime: ~15 min on a single NVIDIA H100 for sample data.
-See [`src/model_baselines/README.md`](src/model_baselines/README.md) for the full list of arguments.
-
 
 ---
 

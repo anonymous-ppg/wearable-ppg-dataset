@@ -8,14 +8,17 @@ Models are trained end-to-end with HR labels using a leave-one-subject-out (LOSO
 
 ---
 
-## Installation
+## Set up environment
 
-**Via Conda (recommended):**
+```bash
+cd src/model_baselines/
+```
 ```bash
 conda env create -f environment.yaml
-conda init
 conda activate water
 ```
+> If `conda activate` fails, run `conda init` once and restart your shell.
+
 
 ---
 
@@ -76,7 +79,7 @@ PYTHONPATH=. python multisite/run_multisite_subset_accel.py --backbone resnet --
 
 **Data directory** (relative to `src/model_baselines/`):
 ```
-# sample dataset (P3, P4 only):
+# sample dataset (P7, P8 only):
 ../../../anonymous-ppg-dataset/multisite-ppg-submission/sample_data/ppg_windowed_data
 
 # full dataset (all participants):

@@ -48,7 +48,7 @@ Contrastive learning with InfoNCE loss over augmented PPG window pairs.
 
 | Hyperparameter | Default |
 |---|---|
-| Pre-training epochs | 120 |
+| Pre-training epochs | 60 |
 | SimCLR learning rate | 0.003 |
 | Temperature (InfoNCE) | 0.07 |
 | Projector output dims | 128 |

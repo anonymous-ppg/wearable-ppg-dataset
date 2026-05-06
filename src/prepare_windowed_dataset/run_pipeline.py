@@ -273,7 +273,7 @@ def _run_single_pipeline_inner(
 def run_dataloader_batch() -> None:
     """
     Per ``config``: for each participant × wearable, read <raw_root>/{P}/{P}_{Role}_raw.npz and
-    <raw_root>/{P}/{P}_ecg_raw.npz (raw_root = sample_data/raw_data or raw_data based on
+    <raw_root>/{P}/{P}_polar_ecg_raw.npz (raw_root = sample_data/raw_data or raw_data based on
     ``WINDOW_DATA_SOURCE``),
     write alignment_windows_* under outputs/{P}/ (windowing includes accel), Pan-Tompkins, merged dual-channel npz
     (compressed; IR/GREEN/accel).

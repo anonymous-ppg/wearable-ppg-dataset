@@ -319,7 +319,7 @@ def resolve_ecg_merged_path(data_dir: Path) -> Optional[Path]:
 
     1. ``{data_dir}/ecg_merged.npz``
     2. ``{data_dir}/ecg_merged.csv``
-    3. ``{data_dir}/{participant}_ecg_raw.npz`` with ``participant = data_dir.name`` (e.g. ``P1_ecg_raw.npz`` next to window NPZ).
+    3. ``{data_dir}/{participant}_polar_ecg_raw.npz`` with ``participant = data_dir.name``.
     """
     for name in ("ecg_merged.npz", "ecg_merged.csv"):
         p = data_dir / name
@@ -327,7 +327,7 @@ def resolve_ecg_merged_path(data_dir: Path) -> Optional[Path]:
             return p
     participant_id = data_dir.name
     if participant_id:
-        p = data_dir / f"{participant_id}_ecg_raw.npz"
+        p = data_dir / f"{participant_id}_polar_ecg_raw.npz"
         if p.is_file():
             return p
     return None
@@ -348,14 +348,14 @@ def copy_ecg_into_dataset_output(
             dst = output_dir / name
             shutil.copy2(src, dst)
             return dst
-    raw = input_dir / f"{participant_id}_ecg_raw.npz"
+    raw = input_dir / f"{participant_id}_polar_ecg_raw.npz"
     if raw.is_file():
         dst = output_dir / "ecg_merged.npz"
         shutil.copy2(raw, dst)
         return dst
     raise FileNotFoundError(
         f"No ECG for participant {participant_id}: expected {input_dir / 'ecg_merged.npz'} or "
-        f"{input_dir / 'ecg_merged.csv'} or {raw}"
+        f"{input_dir / 'ecg_merged.csv'} or {input_dir / f'{participant_id}_polar_ecg_raw.npz'}"
     )
 
 

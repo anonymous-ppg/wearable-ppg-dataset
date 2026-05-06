@@ -73,7 +73,10 @@ def main():
         "--ecg",
         type=Path,
         default=None,
-        help="Merged ECG (.npz or .csv). Default: ecg_merged.npz / ecg_merged.csv or <participant>_ecg_raw.npz under OUTPUTS_DIR; else set RUN_ECG_PATH.",
+        help=(
+            "Merged ECG (.npz or .csv). Default: ecg_merged.npz / ecg_merged.csv or "
+            "<participant>_polar_ecg_raw.npz under OUTPUTS_DIR; else set RUN_ECG_PATH."
+        ),
     )
     parser.add_argument(
         "--ppg-npz",
@@ -99,7 +102,7 @@ def main():
     if ecg_path is None:
         print(
             "[ERROR] No ECG file found. Under OUTPUTS_DIR, add ecg_merged.npz / ecg_merged.csv / "
-            "<participant>_ecg_raw.npz, or set env RUN_ECG_PATH to your ECG file (batch run sets this)."
+            "<participant>_polar_ecg_raw.npz, or set env RUN_ECG_PATH to your ECG file (batch run sets this)."
         )
         sys.exit(1)
 

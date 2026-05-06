@@ -115,7 +115,7 @@ def dataloader_ppg_raw_npz(participant_id: str, role: str) -> Path:
 
 def dataloader_ecg_raw_npz(participant_id: str) -> Path:
     pid = normalize_participant_id(participant_id)
-    return WINDOW_INPUT_ROOT / pid / f"{pid}_ecg_raw.npz"
+    return WINDOW_INPUT_ROOT / pid / f"{pid}_polar_ecg_raw.npz"
 
 
 def participant_output_device(participant_id: str, role: str) -> str:

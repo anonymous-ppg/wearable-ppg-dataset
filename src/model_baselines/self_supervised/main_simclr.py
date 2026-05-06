@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser(description='SimCLR self-supervised for PPG HR'
 parser.add_argument('--cuda',           default=0,           type=int)
 parser.add_argument('--batch_size',     default=256,         type=int)
 parser.add_argument('--n_epoch',        default=60,          type=int,   help='epochs for linear probe')
-parser.add_argument('--simclr_epoch',   default=120,         type=int,   help='epochs for SimCLR pretraining')
+parser.add_argument('--simclr_epoch',   default=60,         type=int,   help='epochs for SimCLR pretraining')
 parser.add_argument('--lr',             default=1e-3,        type=float, help='lr for linear probe')
 parser.add_argument('--simclr_lr',      default=0.003,       type=float, help='lr for SimCLR (from WildPPG)')
 parser.add_argument('--temperature',    default=0.07,        type=float, help='InfoNCE temperature')

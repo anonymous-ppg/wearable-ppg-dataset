@@ -29,7 +29,7 @@ TESTS = [
             sys.executable, "supervised/main_supervised_baseline.py",
             "--dataset",   "ppg",
             "--position",  "earring",
-            "--backbone",  "DCL",
+            "--backbone",  "resnet",
             "--data_dir",  DATA_DIR,
             "--cuda",      str(CUDA),
             "--n_epoch",   "20",

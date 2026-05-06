@@ -132,7 +132,7 @@ The default `--data_dir` points to the full dataset, so **if you have not downlo
 >
 > If you omit `--data_dir`, the script defaults to the full-dataset path.
 
-#### 2.1 Supervised Baseline on Single Device Dataset
+#### 2.1 Supervised Baseline (Single Device)
 
 ```bash
 # --position: earring | ring | watch | necklace
@@ -142,22 +142,22 @@ PYTHONPATH=. python supervised/main_supervised_baseline.py \
 
 ```
 
-#### 2.2 Self-Supervised Baseline on Single Device Dataset
+#### 2.2 Self-Supervised Baseline (Single Device)
 
 ```bash
 # BYOL
 PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position earring --cuda 0 --data_dir <path>
-```
-```bash
+
 # SimCLR
 PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position earring --cuda 0 --data_dir <path>
 
 ```
 See [`src/model_baselines/self_supervised/README.md`](src/model_baselines/self_supervised/README.md) for BYOL and SimCLR hyperparameters.
 
-#### 2.3 Multi-Site Results on 4-Device Aligned Dataset
+#### 2.3 Multi-Site fusion (4-Device Aligned)
 
-Run alignment once per dataset first:
+> ⚠️ **Run alignment once before any multi-site command.** This caches the 4-device aligned tensor so subsequent runs reuse it.
+
 ```bash
 PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path>
 ```
@@ -166,17 +166,17 @@ Then run 4-device fusion:
 ```bash
 # 4-device green channel
 PYTHONPATH=. python supervised/main_supervised_baseline.py \
-    --dataset multisite --backbone DCL --data_dir <path>
-```
-```bash
+    --dataset multisite --backbone resnet --data_dir <path>
+
 # Device-subset sweep (0=earring 1=ring 2=watch 3=necklace):
-PYTHONPATH=. python multisite/run_multisite_subset.py --backbone DCL --devices 0,1 --data_dir <path>
+PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --devices 0,1 --data_dir <path>
 ```
 
-#### 2.4 PPG-Motion Fusion Experiment
+#### 2.4 PPG-Motion Fusion (multimodal)
+This adds a second modality (e.g., accelerometer) on top of the 4-device green PPG.
 
-Run alignment with the corresponding modality first:
 ```bash
+# Generate aligned tensor with the additional modality
 PYTHONPATH=. python multisite/aligned_4device.py --data_dir <path> --modality accel
 ```
 Then run fusion:

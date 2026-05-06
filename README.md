@@ -155,7 +155,7 @@ PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position earrin
 PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position earring --cuda 0 --data_dir <path>
 
 ```
-Expected runtime: ~2h per backbone on a single NVIDIA H100 for sample data.
+Expected runtime: ~20 minutes on a single NVIDIA H100 for sample data.
 
 See [`src/model_baselines/self_supervised/README.md`](src/model_baselines/self_supervised/README.md) for BYOL and SimCLR hyperparameters.
 
@@ -176,7 +176,7 @@ PYTHONPATH=. python supervised/main_supervised_baseline.py \
 # Device-subset sweep (0=earring 1=ring 2=watch 3=necklace):
 PYTHONPATH=. python multisite/run_multisite_subset.py --backbone resnet --devices 0,1 --data_dir <path>
 ```
-Expected runtime: ~15 min on a single NVIDIA H100 for sample data.
+Expected runtime: ~15 minutes on a single NVIDIA H100 for sample data.
 
 #### 2.4 PPG-Motion Fusion (multimodal)
 This adds a second modality (e.g., accelerometer) on top of the 4-device green PPG.
@@ -190,7 +190,7 @@ Then run fusion:
 # 4-device green + accel_z
 PYTHONPATH=. python multisite/main_supervised_baseline_accel.py --backbone resnet --data_dir <path>
 ```
-Expected runtime: ~15 min on a single NVIDIA H100 for sample data.
+Expected runtime: ~15 minutes on a single NVIDIA H100 for sample data.
 
 ---
 

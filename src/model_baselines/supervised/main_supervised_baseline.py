@@ -276,7 +276,7 @@ def train_sup(args, seed_idx: int):
 
     model = build_model(args).to(device)
 
-    position_tag = args.position if args.dataset == 'dataset' else 'multisite'
+    position_tag = args.position if args.dataset == 'ppg' else 'multisite'
     args.model_name = (
         f"{args.backbone}_{args.dataset}_{position_tag}"
         f"_target{args.target_domain}"
@@ -367,14 +367,11 @@ if __name__ == '__main__':
         fold_mean = np.mean(fold_results, axis=0)
         print(f"\n  Seed {seed_idx + 1} mean — "
               f"MAE: {fold_mean[0]:.2f}  RMSE: {fold_mean[1]:.2f}  R: {fold_mean[2]:.4f}")
-        all_seed_results.append(fold_mean)
+        all_seed_results.append(fold_results)
 
-    # ── Final summary across all seeds
-    overall_mean = np.mean(all_seed_results, axis=0)
-    overall_std  = np.std(all_seed_results,  axis=0)
+    # ── Final summary across all participants
+    flat = np.array(all_seed_results).reshape(-1, 3)   # ← (n_seeds * n_participants, 3)
+    overall_mean = flat.mean(axis=0)
+    overall_std  = flat.std(axis=0)
     print(f"\n{'='*60}")
-    print(f"Final results (mean ± std over {len(all_seed_results)} seeds)")
-    print('='*60)
-    print(f"  MAE  : {overall_mean[0]:.2f} ± {overall_std[0]:.2f} bpm")
-    print(f"  RMSE : {overall_mean[1]:.2f} ± {overall_std[1]:.2f} bpm")
-    print(f"  R    : {overall_mean[2]:.4f} ± {overall_std[2]:.4f}")
+    print(f"Final results (mean ± std across {flat.shape[0]} participant-runs)")

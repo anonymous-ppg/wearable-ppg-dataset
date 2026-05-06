@@ -59,10 +59,10 @@ After downloading your dataset, put **`wearable-ppg-dataset`** (the repo from Gi
 
 ### 1. Run Heuristic Baselines
 
-All commands below are run from `src/heuristic_baselines/`:
+All commands below are run from `wearable-ppg-dataset/src/heuristic_baselines/`:
 
 ```bash
-cd src/heuristic_baselines/
+cd wearable-ppg-dataset/src/heuristic_baselines/
 ```
 
 #### 1.1 Dataset download
@@ -71,7 +71,7 @@ Use **Download Dataset** above.
 
 #### 1.2 Edit `config.py`
 
-Set these fields in `src/heuristic_baselines/config.py`:
+Set these fields in `wearable-ppg-dataset/src/heuristic_baselines/config.py`:
 
 - **`HEURISTIC_DATA_SOURCE`**: **`"sample"`** (default) for the sample windowed data, or **`"full"`** for the full **`ppg_windowed_data`** tree.
 - **`HEURISTIC_PIPELINE_PARTICIPANTS`**: which participants to run (default `["P7", "P8"]`).
@@ -94,9 +94,9 @@ For the default sample-data setup, a full heuristic run typically takes about **
 
 ### 2. Run Supervised Baselines
 
-All commands below are run from `src/model_baselines/` with `PYTHONPATH=.`:
+All commands below are run from `wearable-ppg-dataset/src/model_baselines/` with `PYTHONPATH=.`:
 ```bash
-cd src/model_baselines/
+cd wearable-ppg-dataset/src/model_baselines/
 ```
 
 #### Set up environment

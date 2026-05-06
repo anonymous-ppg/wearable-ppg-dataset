@@ -25,7 +25,7 @@ DATA_DIR  = '../../../anonymous-ppg-dataset/multisite-ppg-submission/ppg_windowe
 
 N_EPOCH   = 60    # linear probe epochs
 CUDA      = 0
-USE_PREPROCESS = True  # ← change this to switch
+USE_PREPROCESS = False  # ← change this to switch
 
 # ── Run ───────────────────────────────────────────────────────────────────────
 

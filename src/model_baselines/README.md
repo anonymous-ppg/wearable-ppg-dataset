@@ -198,8 +198,3 @@ P1/aligned_8channel.npz          # green + IR (4 devices × 2 channels)
 
 Results are printed per participant and summarised as mean ± std across all LOSO folds.
 
----
-
-## Self-Supervised Baselines
-
-The `self_supervised/` subdirectory contains SSL methods (BYOL, SimCLR) that use the same backbone architectures and data pipeline. See [`self_supervised/README.md`](self_supervised/README.md) for details.

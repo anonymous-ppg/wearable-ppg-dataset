@@ -57,6 +57,12 @@ After downloading your dataset, put **`wearable-ppg-dataset`** (the repo from Gi
 
 ## Running Experiments
 
+
+> **Where to find your results.** Each step writes its outputs into a folder inside its own directory, organized per participant (e.g. `P7/`, `P8/`):
+> - §1 Heuristic baselines → `src/heuristic_baselines/outputs/`
+> - §2 Supervised baselines → `src/model_baselines/results/` (and `src/model_baselines/results_summary/` for multi-site sweeps)
+> - §3 Windowed dataset prep → `src/prepare_windowed_dataset/outputs/`
+
 ### 1. Run Heuristic Baselines
 
 All commands below are run from `wearable-ppg-dataset/src/heuristic_baselines/`:

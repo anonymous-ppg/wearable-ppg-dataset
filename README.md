@@ -121,6 +121,7 @@ Run an end-to-end check on the sample data (DCL method, earring site):
 PYTHONPATH=. python quickstart.py
 ```
 Expected runtime: ~5 minutes on a single NVIDIA H100.
+> Note: The smoke test uses only 2 participants from `sample_data/`, so each LOSO fold trains on a single participant. With one training participant, the model collapses to predicting the training median, producing near-constant predictions on the test participant — this is why you may see `R: 0.0000` (the code coerces undefined correlation to zero for display). This is expected behavior on the sample, not a bug. Meaningful R values require the full 20-participant dataset.
 
 **Setting `--data_dir` (commands 2.1–2.4).** 
 The default `--data_dir` points to the full dataset, so **if you have not downloaded the full dataset**, you must override it to use the sample data:
@@ -152,7 +153,6 @@ PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position earrin
 PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position earring --cuda 0 --data_dir <path>
 
 ```
-
 See [`src/model_baselines/self_supervised/README.md`](src/model_baselines/self_supervised/README.md) for BYOL and SimCLR hyperparameters.
 
 #### 2.3 Multi-Site Results on 4-Device Aligned Dataset

@@ -4,11 +4,10 @@
 # Run from the src/ directory:
 #   PYTHONPATH=. python quickstart.py
 #
-# Runs single-device supervised baseline (earring, 5 epochs) on P7 & P8.
+# Runs single-device supervised baseline (earring, 20 epochs) on P7 & P8.
 # No alignment step required.
 #
-# For the full LOSO sweep over all participants, change to full dataset and 
-# set --n_epoch back to 20.
+# For the full LOSO sweep over all participants, change to full dataset.
 # =============================================================================
 
 import subprocess
@@ -33,7 +32,7 @@ TESTS = [
             "--backbone",  "DCL",
             "--data_dir",  DATA_DIR,
             "--cuda",      str(CUDA),
-            "--n_epoch",   "5",
+            "--n_epoch",   "20",
         ],
     },
 ]
@@ -59,6 +58,5 @@ if __name__ == "__main__":
 
     print(f"\n{'='*60}")
     print(" Quick test passed.")
-    print(" To run the full LOSO sweep, change path to full dataset and set --n_epoch back to 20.")
     print("="*60)
 

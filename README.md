@@ -141,11 +141,11 @@ PYTHONPATH=. python supervised/main_supervised_baseline.py \
 
 ```bash
 # BYOL
-PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position ring --cuda 0 --data_dir <path>
+PYTHONPATH=. python self_supervised/main_byol.py --dataset ppg --position earring --cuda 0 --data_dir <path>
 ```
 ```bash
 # SimCLR
-PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position ring --cuda 0 --data_dir <path>
+PYTHONPATH=. python self_supervised/main_simclr.py --dataset ppg --position earring --cuda 0 --data_dir <path>
 
 ```
 

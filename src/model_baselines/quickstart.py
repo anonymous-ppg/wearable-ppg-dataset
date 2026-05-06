@@ -58,5 +58,11 @@ if __name__ == "__main__":
 
     print(f"\n{'='*60}")
     print(" Quick test passed.")
-    print("="*60)
+    print()
+    print(" NOTE: Sample data has only 2 participants. With N=1 training")
+    print(" data per LOSO fold, the model collapses to a constant predictor.")
+    print(" Reported MAE/R here are NOT meaningful — they only confirm the")
+    print(" pipeline runs end-to-end. See README for details.")
+    print(f"{'='*60}")
+
 

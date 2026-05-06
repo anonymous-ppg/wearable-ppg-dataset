@@ -375,3 +375,17 @@ if __name__ == '__main__':
     overall_std  = flat.std(axis=0)
     print(f"\n{'='*60}")
     print(f"Final results (mean ± std across {flat.shape[0]} participant-runs)")
+
+    # ── Save summary to file ─────────────────────────────────────────────────
+    os.makedirs("results", exist_ok=True)
+    summary_path = f"results/summary_{args.backbone}_{args.dataset}_{args.position or 'multisite'}.txt"
+    with open(summary_path, "w") as f:
+        f.write(f"Backbone     : {args.backbone}\n")
+        f.write(f"Dataset      : {args.dataset}\n")
+        f.write(f"Position     : {args.position or 'multisite'}\n")
+        f.write(f"Participants : {flat.shape[0]}\n")
+        f.write(f"\n")
+        f.write(f"MAE  : {overall_mean[0]:.2f} ± {overall_std[0]:.2f} bpm\n")
+        f.write(f"RMSE : {overall_mean[1]:.2f} ± {overall_std[1]:.2f} bpm\n")
+        f.write(f"R    : {overall_mean[2]:.4f} ± {overall_std[2]:.4f}\n")
+    print(f"Summary saved to {summary_path}")

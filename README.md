@@ -114,6 +114,7 @@ conda activate water
 > If `conda activate` fails, run `conda init` once and restart your shell.
 
 #### Quick smoke test
+> ⚠️ **Smoke-test results are not meaningful.** The bundled `sample_data/` contains only 2 participants, leaving each LOSO fold with a single training participant. The model will collapse to predicting a constant (you'll see `R: 0.0000` and high MAE). This is expected — it confirms the pipeline runs end-to-end, not that the model works. **Real numbers require the full 20-participant dataset.**
 
 Run an end-to-end check on the sample data (DCL method, earring site):
 
@@ -121,7 +122,6 @@ Run an end-to-end check on the sample data (DCL method, earring site):
 PYTHONPATH=. python quickstart.py
 ```
 Expected runtime: ~5 minutes on a single NVIDIA H100.
-> Note: The smoke test uses only 2 participants from `sample_data/`, so each LOSO fold trains on a single participant. With one training participant, the model collapses to predicting the training median, producing near-constant predictions on the test participant — this is why you may see `R: 0.0000` (the code coerces undefined correlation to zero for display). This is expected behavior on the sample, not a bug. Meaningful R values require the full 20-participant dataset.
 
 **Setting `--data_dir` (commands 2.1–2.4).** 
 The default `--data_dir` points to the full dataset, so **if you have not downloaded the full dataset**, you must override it to use the sample data:

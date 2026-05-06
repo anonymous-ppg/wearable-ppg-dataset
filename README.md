@@ -80,7 +80,7 @@ Set these fields in `src/heuristic_baselines/config.py`:
 - **`HEURISTIC_ALGORITHMS`**: heuristic methods among `pwd`, `msptd`, `fft`, `autocorr`, `heartpy`, `neurokit`, `qppgfast` (default runs only `neurokit`).
 - **`HEURISTIC_RUN_PREPROCESS`**: if **`True`** (default), apply detrend + bandpass and write cached **`outputs/<Px>/<stem>_preprocess.npz`** next to CSVs; if **`False`**, algorithms read the raw window NPZ fields directly.
 
-With the layout in **1.2**, the default **`config.py`** is enough: **`pip install -r requirements.txt`**, then **`python runner.py`**.
+With the file-folders layout in **Download Dataset**, the default **`config.py`** is enough: **`pip install -r requirements.txt`**, then **`python runner.py`**.
 
 #### 1.3 Run
 

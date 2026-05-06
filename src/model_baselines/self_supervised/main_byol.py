@@ -371,26 +371,43 @@ def train_byol(args, i):
     return mae, rmse, mr
 
 
+
 # ── Entry point ────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     set_seed(40)
     args = parser.parse_args()
     domain = set_domain(args)
 
-    seed_errors = []
-    for i in range(3):
-        all_metrics = []
-        for k in domain:
-            setattr(args, 'target_domain', k)
-            setattr(args, 'cases', 'subject_val')
-            mae, rmse, mr = train_byol(args, i)
-            all_metrics.append([mae, rmse, mr])
+    # Single seed; mean ± std reported across participants
+    per_participant = {}
+    for k in domain:
+        setattr(args, 'target_domain', k)
+        setattr(args, 'cases', 'subject_val')
+        mae, rmse, mr = train_byol(args, 0)
+        per_participant[k] = [mae, rmse, mr]
+        print(f'  {k} → MAE: {mae:.3f}, RMSE: {rmse:.3f}, R: {mr:.4f}')
 
-        values = np.array(all_metrics)
-        mean   = np.mean(values, 0)
-        print(f'Seed {i} → MAE: {mean[0]:.3f}, RMSE: {mean[1]:.3f}, R: {mean[2]:.4f}')
-        seed_errors.append(mean.tolist())
+    participant_results = np.array([per_participant[pid] for pid in domain])
+    overall_mean = participant_results.mean(axis=0)
+    overall_std  = participant_results.std(axis=0)
 
     print('\n===== Final Results (BYOL) =====')
-    print(f'Mean  MAE={np.mean(seed_errors,0)[0]:.3f}  RMSE={np.mean(seed_errors,0)[1]:.3f}  R={np.mean(seed_errors,0)[2]:.4f}')
-    print(f'Std   MAE={np.std(seed_errors,0)[0]:.3f}   RMSE={np.std(seed_errors,0)[1]:.3f}  R={np.std(seed_errors,0)[2]:.4f}')
+    print(f'Across {len(domain)} participants (1 seed)')
+    print(f'  MAE  : {overall_mean[0]:.3f} ± {overall_std[0]:.3f} bpm')
+    print(f'  RMSE : {overall_mean[1]:.3f} ± {overall_std[1]:.3f} bpm')
+    print(f'  R    : {overall_mean[2]:.4f} ± {overall_std[2]:.4f}')
+
+    # Save summary
+    os.makedirs("results", exist_ok=True)
+    summary_path = f"results/summary_byol_{args.dataset}_{args.position}.txt"
+    with open(summary_path, "w") as f:
+        f.write(f"Method       : BYOL\n")
+        f.write(f"Dataset      : {args.dataset}\n")
+        f.write(f"Position     : {args.position}\n")
+        f.write(f"Participants : {len(domain)}\n")
+        f.write(f"Seeds        : 1\n")
+        f.write(f"\n")
+        f.write(f"MAE  : {overall_mean[0]:.3f} ± {overall_std[0]:.3f} bpm\n")
+        f.write(f"RMSE : {overall_mean[1]:.3f} ± {overall_std[1]:.3f} bpm\n")
+        f.write(f"R    : {overall_mean[2]:.4f} ± {overall_std[2]:.4f}\n")
+    print(f"Summary saved to {summary_path}")

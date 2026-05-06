@@ -230,8 +230,7 @@ python run_pipeline.py
 
 ## License
 
-This project uses the **MIT License**: you may use, modify, and redistribute the code (including in commercial products) if you keep the copyright and permission notice. The software is provided **as is**, without warranty. Full text: [`LICENSE`](LICENSE).
+**Code:** Released under [GNU General Public License v3.0](./LICENSE) (GPL-3.0). Portions are derived from [WildPPG](https://github.com/eth-siplab/WildPPG), also licensed under GPL-3.0.
 
-## Acknowledgments
+**Dataset:** Released under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
 
-Baseline training code builds on the [WildPPG](https://github.com/eth-siplab/WildPPG) repository (Meier et al., NeurIPS 2024 Datasets and Benchmarks Track).

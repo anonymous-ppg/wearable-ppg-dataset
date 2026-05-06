@@ -52,6 +52,8 @@ snapshot_download(
 "
 ```
 
+After downloading your dataset, put **`wearable-ppg-dataset`** (the repo from GitHub) and **`anonymous-ppg-dataset`** (from HuggingFace) **in the same parent folder**. Don’t move or rename anything inside them—the runner finds the data automatically.
+
 
 ## Running Experiments
 
@@ -67,11 +69,7 @@ cd src/heuristic_baselines/
 
 Use **Download Dataset** above.
 
-#### 1.2 Code + dataset folders
-
-Put **`wearable-ppg-dataset`** (the repo from GitHub) and **`anonymous-ppg-dataset`** (from HuggingFace) **in the same parent folder**. Don’t move or rename anything inside them—the runner finds the data automatically.
-
-#### 1.3 Edit `config.py`
+#### 1.2 Edit `config.py`
 
 Set these fields in `src/heuristic_baselines/config.py`:
 
@@ -84,7 +82,7 @@ Set these fields in `src/heuristic_baselines/config.py`:
 
 With the layout in **1.2**, the default **`config.py`** is enough: **`pip install -r requirements.txt`**, then **`python runner.py`**.
 
-#### 1.4 Run
+#### 1.3 Run
 
 ```bash
 pip install -r requirements.txt

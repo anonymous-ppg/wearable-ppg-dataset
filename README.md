@@ -186,10 +186,10 @@ See [`src/model_baselines/README.md`](src/model_baselines/README.md) for the ful
 
 ### 3. (Optional) Prepare Windowed Dataset with Different Window Size
 
-Use this only if you want to **re-window raw recordings** (e.g. change window length or stride). All commands below are run from `src/prepare_windowed_dataset/`:
+Use this only if you want to **re-window raw recordings** (e.g. change window length or stride). All commands below are run from `wearable-ppg-dataset/src/prepare_windowed_dataset/`:
 
 ```bash
-cd src/prepare_windowed_dataset/
+cd wearable-ppg-dataset/src/prepare_windowed_dataset/
 ```
 
 #### 3.1 Dataset download
@@ -202,7 +202,7 @@ Put **`wearable-ppg-dataset`** (the repo from GitHub) and **`anonymous-ppg-datas
 
 #### 3.3 Edit `config.py`
 
-Set these fields in `src/prepare_windowed_dataset/config.py`:
+Set these fields in `wearable-ppg-dataset/src/prepare_windowed_dataset/config.py`:
 
 - **`WINDOW_DATA_SOURCE`**: **`"sample"`** (default) uses `sample_data/raw_data`; **`"full"`** uses `raw_data`.
 - **`PIPELINE_PARTICIPANTS`**: participants to run (default `["P7", "P8"]`).
